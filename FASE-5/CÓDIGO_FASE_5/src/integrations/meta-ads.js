@@ -3,9 +3,26 @@ import config from '../config.js';
 import logger from '../utils/logger.js';
 
 const metaAPI = axios.create({
-  baseURL: `https://graph.instagram.com/${config.meta.apiVersion}`,
+  baseURL: `https://graph.facebook.com/${config.meta.apiVersion}`,
   timeout: 10000,
 });
+
+export async function getInsights(campaignId, datePreset = 'last_7d') {
+  try {
+    const response = await metaAPI.get(`/${campaignId}/insights`, {
+      params: {
+        fields: 'impressions,clicks,spend,ctr,cpc,actions,conversions',
+        date_preset: datePreset,
+        time_increment: 1,
+        access_token: config.meta.accessToken,
+      },
+    });
+    return response.data.data || [];
+  } catch (error) {
+    logger.error('Failed to fetch Meta insights', error);
+    throw error;
+  }
+}
 
 export const campaigns = {
   create: async (campaignData) => {

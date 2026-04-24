@@ -9,10 +9,7 @@ class StubAgent extends BaseAgent {
 }
 
 export class StrategistAgent extends StubAgent { constructor() { super('strategist'); } }
-export class ImageCreatorAgent extends StubAgent { constructor() { super('imageCreator'); } }
 export class VideoCreatorAgent extends StubAgent { constructor() { super('videoCreator'); } }
-export class GoogleAdsAgent extends StubAgent { constructor() { super('googleAdsAgent'); } }
 export class SeoAgent extends StubAgent { constructor() { super('seoAgent'); } }
-export class AnalyticsAgent extends StubAgent { constructor() { super('analyticsAgent'); } }
 export class DeveloperAgent extends StubAgent { constructor() { super('developerAgent'); } }
 export class CmoAgent extends StubAgent { constructor() { super('cmo'); } }

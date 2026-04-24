@@ -1,13 +1,13 @@
 import { CopywriterAgent } from './copywriter.js';
 import { SupervisorAgent } from './supervisor.js';
 import { MetaAdsAgent } from './meta-ads-agent.js';
+import { ImageCreatorAgent } from './image-creator.js';
+import { GoogleAdsAgent } from './google-ads-agent.js';
+import { AnalyticsAgent } from './analytics-agent.js';
 import {
   StrategistAgent,
-  ImageCreatorAgent,
   VideoCreatorAgent,
-  GoogleAdsAgent,
   SeoAgent,
-  AnalyticsAgent,
   DeveloperAgent,
   CmoAgent,
 } from './stubs.js';

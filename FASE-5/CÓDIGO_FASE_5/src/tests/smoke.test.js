@@ -49,3 +49,35 @@ test('stub agents return { stub: true }', async () => {
   const result = await a.run();
   assert.deepEqual(result, { stub: true });
 });
+
+test('real agents (non-stub) are implemented', async () => {
+  const { registerAgents } = await import('../agents/registry.js');
+  const agents = await registerAgents();
+  const realNames = ['copywriter', 'supervisor', 'metaAdsAgent', 'imageCreator', 'googleAdsAgent', 'analyticsAgent'];
+  for (const name of realNames) {
+    assert.ok(agents[name], `missing: ${name}`);
+    assert.notEqual(agents[name].constructor.name, 'StubAgent', `${name} is still a stub`);
+  }
+});
+
+test('ImageCreator buildPrompt produces valid prompt with guidelines', async () => {
+  const { ImageCreatorAgent } = await import('../agents/image-creator.js');
+  const agent = new ImageCreatorAgent();
+  const campaign = { platform: 'meta_ads', objective: 'conversions', audience: 'homeowners 35-55' };
+  const guidelines = {
+    company: { name: 'Acme' },
+    voice: { tone: 'premium', keyWords: ['quality', 'innovation'] },
+    visualIdentity: { primaryColors: { main: '#123', accent: '#456' } },
+  };
+  const prompt = agent.buildPrompt(campaign, guidelines);
+  assert.match(prompt, /Acme/);
+  assert.match(prompt, /premium/);
+  assert.match(prompt, /quality/);
+});
+
+test('AnalyticsAgent buildDailyReport handles empty metrics gracefully', async () => {
+  const { AnalyticsAgent } = await import('../agents/analytics-agent.js');
+  const agent = new AnalyticsAgent();
+  assert.equal(typeof agent.buildDailyReport, 'function');
+  assert.equal(typeof agent.pullMetrics, 'function');
+});
